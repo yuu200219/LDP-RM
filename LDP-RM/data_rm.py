@@ -48,18 +48,18 @@ class Data(object):
         self.data = self.data[:limit]
         np.random.shuffle(self.data)
     
-    @classmethod
-    def filter_by_movies(cls, movie_list, dataname='movie_new2', limit=300000, domain_size=5020, user_total=100000):
-        data = cls(dataname, limit, domain_size, user_total)
-        filtered_data = []
-        for user_data in data.data:
-            filtered_seq = [mid for mid in user_data if mid in movie_list]
-            if len(filtered_seq) >= 2:  # 至少要有 2 部電影才有關聯性
-                filtered_data.append(filtered_seq)
-        # new_data = cls.__new__(cls)  # 不走 __init__
-        data.data = filtered_data
-        data.user_use = len(filtered_data)
-        return data
+    # @classmethod
+    # def filter_by_movies(cls, movie_list, dataname='movie_new2', limit=300000, domain_size=5020, user_total=100000):
+    #     data = cls(dataname, limit, domain_size, user_total)
+    #     filtered_data = []
+    #     for user_data in data.data:
+    #         filtered_seq = [mid for mid in user_data if mid in movie_list]
+    #         if len(filtered_seq) >= 2:  # 至少要有 2 部電影才有關聯性
+    #             filtered_data.append(filtered_seq)
+    #     # new_data = cls.__new__(cls)  # 不走 __init__
+    #     data.data = filtered_data
+    #     data.user_use = len(filtered_data)
+    #     return data
     
     # ===== singleton testing methods
     # each client samples one randomly
