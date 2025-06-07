@@ -486,8 +486,11 @@ class LDP_RM:
 
     def find_true_itemsets_origin(self, matrix, shuffle_map, l, data, length_limit, epsilon, singletons_row, singletons_col, method, n):
         U, singularValues, V = np.linalg.svd(matrix, hermitian=(singletons_row == singletons_col), full_matrices=True)
-        Ur = np.mat(U[:, :n])
-        Vr = np.mat(V[:n])
+        # Ur = np.mat(U[:, :n])
+        # Vr = np.mat(V[:n])
+        Ur = np.asarray(U[:, :n], dtype=np.float64)
+        Vr = np.asarray(V[:n], dtype=np.float64)
+
         clip_coefficient = 1.0
         domain_report = self.domain2(Ur, Vr, length_limit, clip_coefficient)
         data_temp = self.build_user_matrix(data, singletons_row, singletons_col, l)
@@ -556,11 +559,13 @@ class LDP_RM:
 
     def domain(self, U, V):
         length = U[0].size
-        U = np.mat(U)
+        # U = np.mat(U)
+        U = np.asarray(U, dtype=np.float64)
         s = np.zeros((length, length), dtype=object)
         for i in range(length):
             for j in range(length):
-                corr = np.dot(U[:, i], [V[j]])
+                # corr = np.dot(U[:, i], [V[j]])
+                corr = np.outer(U[:, i], V[j])
                 corr[np.diag_indices_from(corr)] = 0
                 max_ = min_ = 0
                 if len(V[0]) == 1:
@@ -580,11 +585,13 @@ class LDP_RM:
     def domain_limit(self, U, V, length_limit):
         length = U[0].size
         limit = min(length ** 2, length_limit ** 2)
-        U = np.mat(U)
+        # U = np.mat(U)
+        U = np.asarray(U, dtype=np.float64)
         s = np.zeros((length, length), dtype=object)
         for i in range(length):
             for j in range(length):
-                corr = np.dot(U[:, i], [V[j]])
+                # corr = np.dot(U[:, i], [V[j]])
+                corr = np.outer(U[:, i], V[j])
                 corr[np.diag_indices_from(corr)] = 0
                 max_ = min_ = 0
                 if len(V[0]) == 1:
@@ -608,10 +615,12 @@ class LDP_RM:
     def domain2(self, U, V, length_limit, clip_coefficient=1.0):
         length = U[0].size
         limit = min(length ** 2, length_limit ** 2)
-        U = np.mat(U)
+        # U = np.mat(U)
+        U = np.asarray(U, dtype=np.float64)
         s = np.zeros((length), dtype=object)
         for i in range(length):
-            corr = np.dot(U[:, i], [V[i]])
+            # corr = np.dot(U[:, i], [V[i]])
+            corr = np.outer(U[:, i], V[i])
             corr[np.diag_indices_from(corr)] = 0
 
             max_ = min_ = 0
