@@ -2,6 +2,7 @@ import ast
 import heapq
 import itertools
 import pickle
+import os
 from os import path
 import math
 import numpy as np
@@ -22,7 +23,21 @@ class Data(object):
         user_file_name = self.data_name
         if not path.exists('../middleware/' + user_file_name + '.pkl'):
             data = [0] * user_total
-            f = open('../dataset/' + user_file_name + '.txt', 'r')
+            # f = open('../dataset/' + user_file_name + '.txt', 'r')
+            # base_path = '../dataset/'
+            # cluster_path = '../dataset/cluster/'
+            # file_name = user_file_name + '.txt'
+            file_path = '../dataset/cluster/cluster_2.txt'
+
+            # 檢查主資料夾
+            # file_path = os.path.join(base_path, file_name)
+            # if not os.path.exists(file_path):
+            #     # 若不存在則檢查 cluster 子資料夾
+            #     file_path = os.path.join(cluster_path, file_name)
+            #     if not os.path.exists(file_path):
+            #         raise FileNotFoundError(f"找不到檔案：{file_name} 在 {base_path} 或 {cluster_path}")
+
+            f = open(file_path, 'r', encoding='utf-8')
             print('all is well')
             for line in f:
                 if len(line.strip()) == 0:

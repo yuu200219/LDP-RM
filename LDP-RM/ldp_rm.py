@@ -671,8 +671,8 @@ class LDP_RM:
 if __name__ == '__main__':
     # data = Data(dataname='ifttt2', limit=300000, domain_size=354, user_total=499990) #IFTTT-2items
     data = Data(dataname='movie_new2', limit=400000, domain_size=5020, user_total=400000) # Movie dataset
-    metrics = Metrics(data, top_k=64, top_ks=3600, top_kc=32)
-    ldp_rm = LDP_RM(data, epsilon=4.0, top_k=64, top_ks=3600, top_kc=32, submat=4)
+    metrics = Metrics(data, top_k=64, top_ks=1600, top_kc=32)
+    ldp_rm = LDP_RM(data, epsilon=4.0, top_k=64, top_ks=1600, top_kc=32, submat=4)
     import time
     ncr_sum = 0
     f1_sum = 0
