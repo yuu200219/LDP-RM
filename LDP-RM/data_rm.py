@@ -24,18 +24,18 @@ class Data(object):
         if not path.exists('../middleware/' + user_file_name + '.pkl'):
             data = [0] * user_total
             # f = open('../dataset/' + user_file_name + '.txt', 'r')
-            # base_path = '../dataset/'
-            # cluster_path = '../dataset/cluster/'
-            # file_name = user_file_name + '.txt'
-            file_path = '../dataset/cluster/cluster_2.txt'
+            base_path = '../dataset/'
+            cluster_path = '../dataset/cluster_movie/'
+            file_name = user_file_name + '.txt'
+            # file_path = '../dataset/cluster_movie/cluster_2.txt'
 
             # 檢查主資料夾
-            # file_path = os.path.join(base_path, file_name)
-            # if not os.path.exists(file_path):
-            #     # 若不存在則檢查 cluster 子資料夾
-            #     file_path = os.path.join(cluster_path, file_name)
-            #     if not os.path.exists(file_path):
-            #         raise FileNotFoundError(f"找不到檔案：{file_name} 在 {base_path} 或 {cluster_path}")
+            file_path = os.path.join(base_path, file_name)
+            if not os.path.exists(file_path):
+                # 若不存在則檢查 cluster 子資料夾
+                file_path = os.path.join(cluster_path, file_name)
+                if not os.path.exists(file_path):
+                    raise FileNotFoundError(f"找不到檔案：{file_name} 在 {base_path} 或 {cluster_path}")
 
             f = open(file_path, 'r', encoding='utf-8')
             print('all is well')
@@ -48,13 +48,17 @@ class Data(object):
                     itemsets = line.rstrip('\n').strip().split('#')
                     data[random_map[overall_count]] = [0] * len(itemsets)
                     for i, itemset in enumerate(itemsets):
-                        data[random_map[overall_count]][i] = ast.literal_eval(itemset)
+                        # data[random_map[overall_count]][i] = ast.literal_eval(itemset)
+                        parsed = ast.literal_eval(itemset.strip())
+                        data[random_map[overall_count]][i] = parsed
                 else:
                     queries = line.rstrip('\n').strip().split(' ')
                     data[random_map[overall_count]] = [0] * len(queries)
                     for i in range(len(queries)):
                         query = int(queries[i])
                         data[random_map[overall_count]][i] = query
+                if overall_count < 3:  # 前 3 筆列印出來
+                    print(f"[Sample {overall_count}] {data[random_map[overall_count]]}")
                 overall_count += 1
                 if overall_count >= user_total:
                     break
